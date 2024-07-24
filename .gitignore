@@ -2,3 +2,4 @@ src/database/data
 node_modules
 .env
 .idea
+package-lock.json
