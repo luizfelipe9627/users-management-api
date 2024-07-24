@@ -108,7 +108,7 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 ## Visão geral da API
 #### A API foi projetada para ser fácil e simples de usar. Abaixo estão alguns pontos importantes para começar:
 
-- **Base URL**: O endpoint base para todas as chamadas da API é [http://localhost:3001].
+- **Base URL**: O endpoint base para todas as chamadas da API é [http://localhost:3001] para local e [https://users-management-p8hh.onrender.com] para acessar no servidor.
 - **Autenticação**: Para atualizar ou deletar informações do usuário, a API requer um token de sessão e a senha da 
   conta.
 - **Estrutura da resposta**: As respostas da API são retornadas em formato JSON. Exemplos de resposta são fornecidos 
@@ -118,7 +118,7 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 
 ## Documentação do Swagger
 
-Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [link para a documentação do Swagger](http://localhost:3001) para obter uma visão visual completa dos endpoints, parâmetros e exemplos. Só é possível acessar a documentação do Swagger localmente após a instalação e execução do projeto.
+Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [link para a documentação do Swagger Localmente](http://localhost:3001) ou [link para a documentação do Swagger no Servidor](https://users-management-p8hh.onrender.com) para obter uma visão visual completa dos endpoints, parâmetros e exemplos. Só é possível acessar a documentação do Swagger localmente após a instalação e execução do projeto.
 
 ## Funcionalidades
 

@@ -181,12 +181,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3001",
-      "description": "Servidor local (HTTP)"
+      "url": "https://users-management-p8hh.onrender.com",
+      "description": "Servidor remoto (HTTPS)"
     },
     {
-      "url": "",
-      "description": "Servidor remoto (HTTPS)"
+      "url": "http://localhost:3001",
+      "description": "Servidor local (HTTP)"
     }
   ],
   "tags": [
