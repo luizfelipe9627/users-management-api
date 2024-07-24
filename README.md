@@ -75,7 +75,7 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 - Acesse no terminal do editor de código ou no do Docker o link do servidor local, sendo a porta definida no arquivo `.env`:
 
   ```bash
-    http://localhost:3000
+    http://localhost:3001
   ```
 
 ## Variáveis de ambiente
