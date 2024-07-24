@@ -1,0 +1,21 @@
+services:
+  app:
+    image: app
+    build: .
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - .:/usr/app
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - 3306:3306
+    volumes:
+      - ./src/database/data:/var/lib/mysql
+      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
