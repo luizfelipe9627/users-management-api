@@ -1,0 +1,388 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Users Management API",
+    "version": "1.0.0",
+    "description": "API crud de gerenciamento de usuário, desenvolvido para concerrer a uma vaga de Desenvolvedor Node.JS",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do usuário para autenticação."
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário para autenticação."
+          }
+        },
+        "required": ["email", "password"],
+        "example": {
+            "email": "teste@hotmail.com",
+            "password": "teste@123"
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de sessão retornado após o login bem-sucedido."
+          }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do novo usuário."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do novo usuário."
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do novo usuário."
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "example": {
+          "name": "Testando",
+          "email": "teste@hotmail.com",
+          "password": "teste@123"
+        }
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de sessão retornado após o registro bem-sucedido."
+          }
+        }
+      },
+      "ProfileUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Novo email do usuário."
+          },
+          "name": {
+            "type": "string",
+            "description": "Novo nome do usuário."
+          },
+          "password": {
+            "type": "string",
+            "description": "Nova senha do usuário."
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de sessão."
+          }
+        },
+        "example": {
+          "name": "Novo nome",
+          "email": "novoemail@hotmail.com",
+          "password": "novasenha@abc",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjE4N9909ksdkslç1NTIyM30.tDYNkBRgXyjzpAclsFX0J2tiy9mB0NzODD6JeSuAhBU"
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "ProfileUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID do usuário."
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário."
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do usuário."
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário."
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de sessão do usuário."
+          }
+        },
+        "description": "Dados atualizados do usuário.",
+        "required": [
+          "message",
+          "user"
+        ]
+      },
+      "DeleteRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de sessão do usuário para autenticação."
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha da conta do usuário para confirmação da exclusão."
+          }
+        },
+        "required": [
+          "token",
+          "password"
+        ],
+        "example": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+          "password": "senhaAtual@123"
+        }
+      },
+      "DeleteResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensagem confirmando a exclusão do perfil."
+          }
+        },
+        "required": ["message"],
+        "example": {
+          "message": "Conta excluída com sucesso."
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Documentação do Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Servidor local (HTTP)"
+    },
+    {
+      "url": "",
+      "description": "Servidor remoto (HTTPS)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Rotas de autenticação"
+    },
+    {
+      "name": "Conta",
+      "description": "Rotas de gerenciamento"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Autentica um usuário e retorna um token de sessão",
+        "tags": ["Autenticação"],
+        "description": "Autentica um usuário fornecendo o email e a senha. Retorna um token de sessão se as credenciais forem válidas.",
+        "requestBody": {
+          "description": "Informações do usuário para login",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido. Retorna um token de sessão.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida. Email ou senha ausentes ou inválidos."
+          },
+          "401": {
+            "description": "Credenciais inválidas. Email ou senha incorretos."
+          },
+          "404": {
+            "description": "Usuário não encontrado. O email fornecido não corresponde a nenhum usuário registrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao atualizar o token."
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Registra um novo usuário no sistema",
+        "tags": ["Autenticação"],
+        "description": "Registra um novo usuário fornecendo o email e a senha. Retorna um token de sessão se o registro for bem-sucedido.",
+        "requestBody": {
+          "description": "Informações do novo usuário para registro",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registro bem-sucedido. Retorna um token de sessão.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida. Email ou senha ausentes ou inválidos."
+          },
+          "409": {
+            "description": "Conflito. O email já está registrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao criar o usuário."
+          }
+        }
+      }
+    },
+    "/user/profile": {
+      "put": {
+        "summary": "Atualiza as informações do perfil do usuário",
+        "tags": ["Conta"],
+        "description": "Atualiza as informações do perfil do usuário fornecendo o email, nome e/ou senha. Pelo menos um campo deve ser preenchido.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Informações do usuário para atualização do perfil",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida. Pelo menos um campo deve ser preenchido para a atualização do perfil."
+          },
+          "401": {
+            "description": "Não autorizado. O token de sessão pode estar ausente ou inválido."
+          },
+          "404": {
+            "description": "Usuário não encontrado. O perfil não pôde ser atualizado."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao atualizar o perfil."
+          }
+        }
+      }
+    },
+    "/user/delete": {
+      "delete": {
+        "summary": "Exclui a conta do usuário",
+        "tags": ["Conta"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Deleta a conta do usuário. É necessário fornecer um token válido e a senha da conta. Após a exclusão, o usuário não estará mais presente na base de dados.",
+        "requestBody": {
+          "description": "Informações do usuário para deletar conta",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conta excluída com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Mensagem confirmando a exclusão da conta."
+                    }
+                  },
+                  "example": {
+                    "message": "Perfil excluído com sucesso."
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida. Token não fornecido ou inválido."
+          },
+          "401": {
+            "description": "Token inválido ou expirado. O usuário precisa fazer login novamente."
+          },
+          "404": {
+            "description": "Usuário não encontrado. A conta fornecida não existe na base de dados."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Problemas ao processar a requisição."
+          }
+        }
+      }
+    }
+  }
+}
