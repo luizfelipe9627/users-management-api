@@ -57,6 +57,13 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 
 5. Inicie as Imagens do Docker:
 
+- Para rodar todas as imagens juntas execute o comando abaixo:
+
+  Para criar a imagem do Node.JS e do MySQL e já iniciar os containers:
+  ```bash
+    npm run docker:all
+  ```
+
 - Caso deseje rodar apenas o Node.JS, execute o comando abaixo:
 
   Para criar a imagem do Node.JS e iniciar o container:
