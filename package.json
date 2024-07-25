@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --legacy-watch src/server.js",
     "start": "node src/server.js",
+    "docker:all": "docker-compose up -d",
     "docker:app": "docker-compose up -d app",
     "docker:db": "docker-compose up -d db",
     "docker:stop": "docker-compose down",
