@@ -20,7 +20,7 @@ const createToken = async (id) => {
     return jwt.sign(
         {userId: id},
         await getJwtSecret(),
-        {expiresIn: "15m"},
+        {expiresIn: "20m"},
     );
 }
 
