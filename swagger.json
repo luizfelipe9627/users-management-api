@@ -74,9 +74,9 @@
       "RegisterResponse": {
         "type": "object",
         "properties": {
-          "message": {
+          "token": {
             "type": "string",
-            "description": "Mensagem de sucesso ou erro no registro do usuário."
+            "description": "Token de sessão retornado após o registro bem-sucedido."
           }
         },
         "example": {
@@ -109,10 +109,6 @@
       "ProfileUpdateResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "ID do usuário."
-          },
           "name": {
             "type": "string",
             "description": "Nome do usuário."
@@ -155,7 +151,7 @@
         "properties": {
           "message": {
             "type": "string",
-            "description": "Mensagem de sucesso ou erro na exclusão da conta."
+            "description": "Mensagem confirmando a exclusão da conta."
           }
         },
         "required": ["message"],

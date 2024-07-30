@@ -121,7 +121,7 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 ## Visão geral da API
 #### A API foi projetada para ser fácil e simples de usar. Abaixo estão alguns pontos importantes para começar:
 
-- **Base URL**: O endpoint base para todas as chamadas da API é [http://localhost:3001].
+- **Base URL**: O endpoint base para todas as chamadas da API é [http://localhost:3001] para ambiente de desenvolvimento e [https://users-management-api.onrender.com] para ambiente de produção.
 - **Autenticação**: A autenticação é feita por meio de tokens JWT. Para acessar os endpoints protegidos, é necessário incluir o token de sessão retornado após o login nas solicitações subsequentes.
 - **Parâmetros de solicitação**: Os parâmetros de solicitação são passados no corpo da solicitação em formato JSON. Exemplos de corpo de solicitação são fornecidos na documentação abaixo para cada endpoint.
 - **Respostas**: As respostas da API são retornadas em formato JSON. Exemplos de corpo de resposta são fornecidos na documentação abaixo para cada endpoint.
@@ -129,7 +129,7 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
 
 ## Documentação do Swagger
 
-Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [Swagger Local](http://localhost:3001) para obter uma visão visual completa dos endpoints, parâmetros e exemplos. Só é possível acessar a documentação do Swagger localmente após a instalação e execução do projeto.
+Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [Swagger Local](http://localhost:3001) ou [Swagger Online](https://users-management-api.onrender.com) para obter uma visão visual completa dos endpoints, parâmetros e exemplos.
 
 ## Funcionalidades
 

@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
 
         res.setHeader('authorization', `Bearer ${updatedUser.token}`);
 
-        return res.status(201).json({ message: 'Usuário registrado com sucesso.' });
+        return res.status(201).json({ token: updatedUser.token });
     } catch (err) {
         return res.status(500).json({ error: 'Erro ao criar usuário. Por favor, tente novamente mais tarde.' });
     }

@@ -15,7 +15,7 @@ const createJWT = async (id) => {
     return jwt.sign(
         {userId: id},
         secretJWT(),
-        {expiresIn: "20m"},
+        {expiresIn: "15m"},
     );
 }
 

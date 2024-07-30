@@ -50,7 +50,7 @@ const updateUser = async (req, res) => {
 
         const updatedUser = updatedUsers[0];
 
-        return res.status(200).json(updatedUser);
+        return res.status(200).json({ name: updatedUser.name, email: updatedUser.email, password: updatedUser.password });
     } catch (err) {
         return res.status(500).json({ error: 'Erro ao atualizar usuário. Por favor, tente novamente mais tarde.' });
     }
