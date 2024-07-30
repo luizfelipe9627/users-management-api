@@ -178,6 +178,10 @@
   },
   "servers": [
     {
+      "url": "https://users-management-api.onrender.com",
+      "description": "Servidor de produção (HTTPS)"
+    },
+    {
       "url": "http://localhost:3001",
       "description": "Servidor local (HTTP)"
     }

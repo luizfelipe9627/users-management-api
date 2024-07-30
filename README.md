@@ -7,7 +7,7 @@
  <img src="https://img.shields.io/static/v1?label=swagger&message=5.0.1&color=darkgreen&style=for-the-badge&logo=swagger"/>
  <img src="https://img.shields.io/static/v1?label=docker&message=4.32.0&color=2496ED&style=for-the-badge&logo=docker" 
 alt="Docker">
- <img src="https://img.shields.io/static/v1?label=bcrypt&message=5.1.1&color=blue&style=for-the-badge&logo=npm" alt="bcrypt"/>
+ <img src="https://img.shields.io/static/v1?label=bcryptjs&message=2.4.3&color=blue&style=for-the-badge&logo=npm" alt="bcrypt"/>
  <img src="https://img.shields.io/static/v1?label=jsonwebtoken&message=9.0.2&color=black&style=for-the-badge&logo=npm" alt="jsonwebtoken"/>
  <img src="https://img.shields.io/static/v1?label=zod&message=3.23.8&color=purple&style=for-the-badge&logo=npm" alt="zod"/>
 </div>
@@ -255,8 +255,8 @@ Exclui a conta do usuário. É necessário estar autenticado para acessar este e
 - [Nodemon](https://www.npmjs.com/package/nodemon): Ferramenta que monitora as alterações no código e reinicia automaticamente o servidor.
 - [Dotenv](https://www.npmjs.com/package/dotenv): Módulo que carrega variáveis de ambiente de um arquivo `.env` para `process.env`.
 - [Cors](https://www.npmjs.com/package/cors): Middleware para habilitar o CORS com várias opções.
-- [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken): Biblioteca para geração e verificação de JSON Web 
-  Tokens (JWT).
+- [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken): Biblioteca para geração e verificação de JSON Web Tokens (JWT).
+- [Bcrypt](https://www.npmjs.com/package/bcrypt): Biblioteca para criptografia de senhas.
 - [Zod](https://www.npmjs.com/package/zod): Biblioteca para validação de esquemas e dados.
 
 ## Autor e Licença
