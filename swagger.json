@@ -125,7 +125,6 @@
         },
         "description": "Dados atualizados do usuário.",
         "example": {
-          "id": 123,
           "name": "Johnathan Doe",
           "email": "johnathan.doe@example.com",
           "password": "$2a$10$pLNMBfadOfiW/R4Cde3f8eQ8UmSLY8HeaLbpGS5"
