@@ -1,5 +1,5 @@
 const {validatePassword} = require("../auth/passwordAuth");
-const {updateToken} = require("../auth/tokenAuth");
+const {updateJWT} = require("../auth/tokenAuth");
 const connection = require("../database/connection");
 
 const loginUser = async (req, res) => {
@@ -21,16 +21,13 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ error: 'Senha inválida.' });
         }
 
-        await updateToken(user.id, user.token);
+        const newToken = await updateJWT(user.id, user.token);
 
-        const updatedUserQuery = 'SELECT * FROM users WHERE id = ?';
-        const [updatedUsers] = await connection.execute(updatedUserQuery, [user.id]);
+        res.setHeader('Authorization', `Bearer ${newToken}`);
 
-        const updatedUser = updatedUsers[0];
-
-        return res.status(200).json({ token: updatedUser.token });
+        return res.status(200).json({ token: newToken});
     } catch (err) {
-        return res.status(500).json({ error: 'Erro ao logar usuário. Por favor, tente novamente mais tarde.' });
+        return res.status(500).json({ error: err.message });
     }
 }
 

@@ -1,16 +1,12 @@
-const {verifyToken} = require("../auth/tokenAuth");
 const connection = require("../database/connection");
 const {encryptPassword} = require("../auth/passwordAuth");
 
 const updateUser = async (req, res) => {
     try {
-        const { name, email, password, token } = req.body;
+        const { name, email, password } = req.body;
 
-        try {
-            await verifyToken(token);
-        } catch (err) {
-            return res.status(401).json({ error: 'O token fornecido é inválido ou expirou. Por favor, faça login novamente para obter um novo token.' });
-        }
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split(' ')[1];
 
         const query = 'SELECT * FROM users WHERE token = ?';
         const [users] = await connection.execute(query, [token]);

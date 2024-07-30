@@ -1,40 +1,41 @@
 const jwt = require("jsonwebtoken");
 const connection = require("../database/connection");
-const bycrypt = require("bcryptjs");
 
 require('dotenv').config();
 
-const getJwtSecret = async () => {
-    if (process.env.JWT_SECRET) {
-        return process.env.JWT_SECRET;
-    } else {
-        return bycrypt.hash(
-            Math.random().toString(36).substring(2, 15) +
-            Math.random().toString(36).substring(2, 15),
-            10
-        );
+const secretJWT = () => {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error('Você precisa definir uma variável de ambiente JWT_SECRET com um segredo para assinar o token JWT.');
     }
+    return secret;
 };
 
-const createToken = async (id) => {
+const createJWT = async (id) => {
     return jwt.sign(
         {userId: id},
-        await getJwtSecret(),
+        secretJWT(),
         {expiresIn: "20m"},
     );
 }
 
-const verifyToken = async (token) => {
-    return jwt.verify(token, await getJwtSecret());
-}
-
-const updateToken = async (id, oldToken) => {
+const verifyJWT = async (token) => {
     try {
-        await verifyToken(oldToken);
+        return jwt.verify(token, secretJWT());
+    } catch (err) {
+        throw err;
+    }
+};
+
+const updateJWT = async (id, oldToken) => {
+    try {
+        await verifyJWT(oldToken);
+        console.log("Token válido")
         return oldToken;
     } catch (err) {
         if(err.name === 'TokenExpiredError' || err.name === "JsonWebTokenError") {
-            const newToken = await createToken(id);
+            console.log("Token inválido")
+            const newToken = await createJWT(id);
 
             const updateQuery = 'UPDATE users SET token = ? WHERE id = ?';
             await connection.execute(updateQuery, [newToken, id]);
@@ -46,7 +47,7 @@ const updateToken = async (id, oldToken) => {
 }
 
 module.exports = {
-    createToken,
-    verifyToken,
-    updateToken
+    createJWT,
+    verifyJWT,
+    updateJWT
 }

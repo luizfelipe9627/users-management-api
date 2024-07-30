@@ -96,45 +96,49 @@ API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e
     MYSQL_USER=root # Seu usuário local do seu MySQL.
     MYSQL_PASSWORD=root # Sua senha local do seu MySQL.
     MYSQL_DATABASE=users_management # Para rodar com o Docker Compose, o valor dessa variável deve ser 'users_management', pois é o nome do banco de dados que será criado no MySQL.
+    JWT_SECRET=sua_chave_secreta # Chave secreta obrigatória para gerar o token JWT.
   ```
 
 - Caso deseje rodar o projeto em ambiente de produção(deploy), copie o arquivo `.env.prod.example` e renomeie para `.env`. Todos os valores das variáveis de ambiente podem ser alterados, exceto o valor da variável `NODE_ENV`, que deve ser `production`.
 
   ```bash
-    PORT=3001 # Para que o swagger funcione corretamente, a porta deve ser a definida por padrão.
-    NODE_ENV=production # Para rodar com o node em ambiente de produção, o valor dessa variável deve ser 'production'.
-    # O hostname ou endereço IP da instância MySQL na nuvem.
+    # Para que o swagger funcione corretamente, a porta deve ser a definida por padrão.
+    PORT=3001 
+
+    # Para rodar com o node em ambiente de produção, o valor dessa variável deve ser 'production'.
+    NODE_ENV=production 
 
     # Preencha todas as variáveis a seguir com as configurações passadas pelo seu provedor do banco de dados.
     MYSQL_HOST=
     MYSQL_USER= 
     MYSQL_PASSWORD=
     MYSQL_DATABASE=
+
+    # Chave secreta obrigatória para gerar o token JWT.
+    JWT_SECRET=
   ```
 
 ## Visão geral da API
 #### A API foi projetada para ser fácil e simples de usar. Abaixo estão alguns pontos importantes para começar:
 
 - **Base URL**: O endpoint base para todas as chamadas da API é [http://localhost:3001].
-- **Autenticação**: Para atualizar ou deletar informações do usuário, a API requer um token de sessão e a senha da 
-  conta.
-- **Estrutura da resposta**: As respostas da API são retornadas em formato JSON. Exemplos de resposta são fornecidos 
-  na documentação abaixo para cada endpoint.
-- **Códigos de status**: A API retorna códigos de status padrão, como 200, 201 e 400, além de códigos personalizados 
-  para erros específicos.
+- **Autenticação**: A autenticação é feita por meio de tokens JWT. Para acessar os endpoints protegidos, é necessário incluir o token de sessão retornado após o login nas solicitações subsequentes.
+- **Parâmetros de solicitação**: Os parâmetros de solicitação são passados no corpo da solicitação em formato JSON. Exemplos de corpo de solicitação são fornecidos na documentação abaixo para cada endpoint.
+- **Respostas**: As respostas da API são retornadas em formato JSON. Exemplos de corpo de resposta são fornecidos na documentação abaixo para cada endpoint.
+- **Códigos de status**: A API retorna códigos de status padrão, como 200 para solicitações bem-sucedidas, 400 para solicitações inválidas e 500 para erros internos do servidor.
 
 ## Documentação do Swagger
 
-Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [link para a documentação do Swagger Localmente](http://localhost:3001) para obter uma visão visual completa dos endpoints, parâmetros e exemplos. Só é possível acessar a documentação do Swagger localmente após a instalação e execução do projeto.
+Explore e teste a API de forma interativa usando a documentação local do Swagger. Acesse [Swagger Local](http://localhost:3001) para obter uma visão visual completa dos endpoints, parâmetros e exemplos. Só é possível acessar a documentação do Swagger localmente após a instalação e execução do projeto.
 
 ## Funcionalidades
 
-A Users Management API é um conjunto de endpoints que permite gerenciar informações de usuários. As principais funcionalidades são:
+A API users-management fornece as seguintes funcionalidades:
 
-- **Login**: Permite que um usuário se autentique no sistema fornecendo seu e-mail e senha. Após uma autenticação bem-sucedida, um token de sessão é retornado, que deve ser incluído nas solicitações subsequentes para operações que requerem autenticação.
-- **Registro**: Permite que novos usuários se registrem no sistema fornecendo um e-mail e uma senha. Após o registro, um token de sessão é gerado e retornado, permitindo que o usuário acesse as funcionalidades protegidas da API.
-- **Alterar informações da conta**: Permite que um usuário autenticado atualize suas informações de perfil, como nome, e-mail e senha. É necessário fornecer um token de sessão válido e ao menos um campo de informação para atualização.
-- **Deletar conta**: Permite que um usuário autenticado exclua sua conta do sistema. Para realizar essa operação, o usuário deve fornecer seu token de sessão e a senha da conta como forma de autenticação adicional.
+- **Login**: Permite que usuários autentiquem-se fornecendo um e-mail e uma senha. Se as credenciais forem válidas, um token de sessão é gerado e retornado.
+- **Registro**: Permite que novos usuários se registrem fornecendo um nome, um e-mail e uma senha. Se o registro for bem-sucedido, um token de sessão é gerado e retornado.
+- **Alterar informações da conta**: Permite que um usuário autenticado atualize seu perfil fornecendo um e-mail, um nome e/ou uma senha. Pelo menos um campo deve ser preenchido para realizar a atualização.
+- **Deletar conta**: Permite que um usuário autenticado exclua sua conta fornecendo um token de sessão e a senha da conta. Após a exclusão, o usuário não estará mais presente na base de dados.
 
 ## Recursos principais e Exemplos
 
@@ -149,8 +153,8 @@ Autentica um usuário fornecendo o email e a senha. Retorna um token de sessão 
 
 ```json
 {
-  "email": "teste@hotmail.com",
-  "password": "teste@123"
+  "email": "luiz@email.com",
+  "password": "luiz@123"
 }
 ```
 
@@ -173,9 +177,9 @@ Registra um novo usuário fornecendo o email e a senha. Retorna um token de sess
 
 ```json
 {
-  "name": "Testando",
-  "email": "teste@hotmail.com",
-  "password": "teste@123"
+  "name": "Luiz",
+  "email": "luiz@email.com",
+  "password": "luiz@123"
 }
 ```
 
@@ -183,13 +187,13 @@ Registra um novo usuário fornecendo o email e a senha. Retorna um token de sess
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYs..."
+  "token": "203kdslJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.29dskladaskoLDLP..."
 }
 ```
 
 ### 3. Atualizar perfil
 
-Atualiza as informações do perfil do usuário fornecendo o email, nome e/ou senha. Pelo menos um campo deve ser preenchido.
+Atualiza as informações do perfil do usuário. É necessário estar autenticado para acessar este endpoint. Pelo menos um campo deve ser preenchido para realizar a atualização.
 
 - **Endpoint**: `/user/profile`
 - **Método**: `PUT`
@@ -199,10 +203,9 @@ Atualiza as informações do perfil do usuário fornecendo o email, nome e/ou se
 ```json
 {
   "id": 0,
-  "name": "Lucas",
-  "email": "lucas@hotmail.com",
-  "password": "lucas@123",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYs..."
+  "name": "Luiz Felipe",
+  "email": "luizfelipe@email.com",
+  "password": "lf@321",
 }
 ```
 
@@ -211,16 +214,16 @@ Atualiza as informações do perfil do usuário fornecendo o email, nome e/ou se
 ```json
 {
   "id": 0,
-  "name": "Lucas",
-  "email": "lucas@hotmail.com",
+  "name": "Luiz Felipe",
+  "email": "luizfelipe@email.com",
   "password": "$10$F.kzUfuFDhYXuJFeu5YHLusEi.TzXi3X02H...",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYs..."
+  "token": "sdasSKEI281.92udjeKGORN4.eyJ1c2VySWQiOjYs..."
 }
 ```
 
 ### 4. Excluir conta
 
-Deleta a conta do usuário. É necessário fornecer um token válido e a senha da conta. Após a exclusão, o usuário não estará mais presente na base de dados.
+Exclui a conta do usuário. É necessário estar autenticado para acessar este endpoint.
 
 - **Endpoint**: `/user/delete`
 - **Método**: `DELETE`
@@ -229,8 +232,7 @@ Deleta a conta do usuário. É necessário fornecer um token válido e a senha d
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "password": "senhaAtual@123"
+  "password": "lf@321"
 }
 ```
 
@@ -253,7 +255,6 @@ Deleta a conta do usuário. É necessário fornecer um token válido e a senha d
 - [Nodemon](https://www.npmjs.com/package/nodemon): Ferramenta que monitora as alterações no código e reinicia automaticamente o servidor.
 - [Dotenv](https://www.npmjs.com/package/dotenv): Módulo que carrega variáveis de ambiente de um arquivo `.env` para `process.env`.
 - [Cors](https://www.npmjs.com/package/cors): Middleware para habilitar o CORS com várias opções.
-- [Bcrypt](https://www.npmjs.com/package/bcrypt): Biblioteca para hashing de senhas e criptografia.
 - [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken): Biblioteca para geração e verificação de JSON Web 
   Tokens (JWT).
 - [Zod](https://www.npmjs.com/package/zod): Biblioteca para validação de esquemas e dados.

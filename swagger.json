@@ -3,7 +3,7 @@
   "info": {
     "title": "Users Management API",
     "version": "1.0.0",
-    "description": "API crud de gerenciamento de usuário, desenvolvido para concerrer a uma vaga de Desenvolvedor Node.JS",
+    "description": "API completa para gerenciamento de usuários. Permite a criação, autenticação, atualização e exclusão de contas de usuário.",
     "termsOfService": "http://swagger.io/terms/",
     "license": {
       "name": "MIT",
@@ -27,8 +27,8 @@
         },
         "required": ["email", "password"],
         "example": {
-            "email": "teste@hotmail.com",
-            "password": "teste@123"
+          "email": "johndoe@example.com",
+          "password": "johndoe@123"
         }
       },
       "LoginResponse": {
@@ -38,6 +38,9 @@
             "type": "string",
             "description": "Token de sessão retornado após o login bem-sucedido."
           }
+        },
+        "example": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
         }
       },
       "RegisterRequest": {
@@ -63,18 +66,21 @@
           "password"
         ],
         "example": {
-          "name": "Testando",
-          "email": "teste@hotmail.com",
-          "password": "teste@123"
+          "name": "John Doe",
+          "email": "johndoe@example.com",
+          "password": "johndoe@123"
         }
       },
       "RegisterResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "message": {
             "type": "string",
-            "description": "Token de sessão retornado após o registro bem-sucedido."
+            "description": "Mensagem de sucesso ou erro no registro do usuário."
           }
+        },
+        "example": {
+          "message": "Registro realizado com sucesso. Bem-vindo, John Doe!"
         }
       },
       "ProfileUpdateRequest": {
@@ -92,21 +98,13 @@
           "password": {
             "type": "string",
             "description": "Nova senha do usuário."
-          },
-          "token": {
-            "type": "string",
-            "description": "Token de sessão."
           }
         },
         "example": {
-          "name": "Novo nome",
-          "email": "novoemail@hotmail.com",
-          "password": "novasenha@abc",
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjE4N9909ksdkslç1NTIyM30.tDYNkBRgXyjzpAclsFX0J2tiy9mB0NzODD6JeSuAhBU"
-        },
-        "required": [
-          "token"
-        ]
+          "name": "Johnathan Doe",
+          "email": "johnathan.doe@example.com",
+          "password": "johndoe123@abc"
+        }
       },
       "ProfileUpdateResponse": {
         "type": "object",
@@ -127,37 +125,29 @@
           "password": {
             "type": "string",
             "description": "Senha do usuário."
-          },
-          "token": {
-            "type": "string",
-            "description": "Token de sessão do usuário."
           }
         },
         "description": "Dados atualizados do usuário.",
-        "required": [
-          "message",
-          "user"
-        ]
+        "example": {
+          "id": 123,
+          "name": "Johnathan Doe",
+          "email": "johnathan.doe@example.com",
+          "password": "$2a$10$pLNMBfadOfiW/R4Cde3f8eQ8UmSLY8HeaLbpGS5"
+        }
       },
       "DeleteRequest": {
         "type": "object",
         "properties": {
-          "token": {
-            "type": "string",
-            "description": "Token de sessão do usuário para autenticação."
-          },
           "password": {
             "type": "string",
             "description": "Senha da conta do usuário para confirmação da exclusão."
           }
         },
         "required": [
-          "token",
           "password"
         ],
         "example": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-          "password": "senhaAtual@123"
+          "password": "johndoe@123"
         }
       },
       "DeleteResponse": {
@@ -165,13 +155,20 @@
         "properties": {
           "message": {
             "type": "string",
-            "description": "Mensagem confirmando a exclusão do perfil."
+            "description": "Mensagem de sucesso ou erro na exclusão da conta."
           }
         },
         "required": ["message"],
         "example": {
           "message": "Conta excluída com sucesso."
         }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   },
@@ -196,6 +193,45 @@
     }
   ],
   "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Registra um novo usuário no sistema",
+        "tags": ["Autenticação"],
+        "description": "Registra um novo usuário fornecendo o email e a senha. Retorna um token de sessão se o registro for bem-sucedido.",
+        "requestBody": {
+          "description": "Informações do novo usuário para registro",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registro bem-sucedido. Retorna um token de sessão.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida. Email ou senha ausentes ou inválidos."
+          },
+          "409": {
+            "description": "Conflito. O email já está registrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao criar o usuário."
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "summary": "Autentica um usuário e retorna um token de sessão",
@@ -234,45 +270,6 @@
           },
           "500": {
             "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao atualizar o token."
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "summary": "Registra um novo usuário no sistema",
-        "tags": ["Autenticação"],
-        "description": "Registra um novo usuário fornecendo o email e a senha. Retorna um token de sessão se o registro for bem-sucedido.",
-        "requestBody": {
-          "description": "Informações do novo usuário para registro",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registro bem-sucedido. Retorna um token de sessão.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Requisição inválida. Email ou senha ausentes ou inválidos."
-          },
-          "409": {
-            "description": "Conflito. O email já está registrado."
-          },
-          "500": {
-            "description": "Erro interno do servidor. Problemas ao processar a requisição ou ao criar o usuário."
           }
         }
       }
@@ -359,7 +356,7 @@
                     }
                   },
                   "example": {
-                    "message": "Perfil excluído com sucesso."
+                    "message": "Conta excluída com sucesso."
                   }
                 }
               }

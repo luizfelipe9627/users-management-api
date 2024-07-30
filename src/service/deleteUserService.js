@@ -1,16 +1,12 @@
 const connection = require("../database/connection");
-const {verifyToken} = require("../auth/tokenAuth");
 const {validatePassword} = require("../auth/passwordAuth");
 
 const deleteUser = async (req, res) => {
     try {
-        const { password, token } = req.body;
+        const { password } = req.body;
 
-        try {
-            await verifyToken(token);
-        } catch (err) {
-            return res.status(401).json({ error: 'O token fornecido é inválido ou expirou. Por favor, faça login novamente para obter um novo token.' });
-        }
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split(' ')[1];
 
         const querySelect = 'SELECT * FROM users WHERE token = ?';
         const [users] = await connection.execute(querySelect, [token]);
@@ -27,7 +23,7 @@ const deleteUser = async (req, res) => {
             return res.status(400).json({ error: 'A senha fornecida está incorreta. Verifique e tente novamente.' });
         }
     } catch (err) {
-        return res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: 'Erro ao deletar usuário. Por favor, tente novamente mais tarde.' });
     }
 }
 
