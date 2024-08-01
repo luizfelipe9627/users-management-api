@@ -1,21 +1,33 @@
+# O services é um array de serviços que serão executados nos containers do docker.
 services:
+  # O serviço app(pode ser qualquer outro nome) é um serviço que será executado no container do node.
   app:
+    # O image é responsável por definir o nome da imagem que será utilizada para criar o container.
     image: app
+     # O build é responsável por definir o contexto e o dockerfile que será utilizado para criar a imagem.
     build: .
+    # O ports é responsável por definir as portas que serão expostas para a máquina host.
     ports:
       - 3001:3001
+    # O environment é responsável por definir as variáveis de ambiente.
     environment:
       - NODE_ENV=${NODE_ENV}
+    # Define o volume, responsável por mapear a pasta do projeto para o container.
     volumes:
       - .:/usr/app
 
+  # O serviço db(pode ser qualquer outro nome) é um serviço que será executado no container do mysql.
   db:
+    # O image é responsável por definir o nome da imagem que será utilizada para criar o container.
     image: mysql
+    # O environment é responsável por definir as variáveis de ambiente.
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} 
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    # O ports é responsável por definir as portas que serão expostas para a máquina host.
     ports:
       - 3306:3306
+    # Define o volume, responsável por mapear/criar a pasta do banco de dados para o container.
     volumes:
       - ./src/database/data:/var/lib/mysql
       - ./src/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
