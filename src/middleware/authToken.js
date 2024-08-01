@@ -5,13 +5,15 @@ const authToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json({ error: "Você precisa estar autenticado para acessar este recurso." });
+      return res.status(401).json({
+        error: "Você precisa estar autenticado para acessar este recurso.",
+      });
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ error: 'Token malformado.' });
+      return res.status(401).json({ error: "Token malformado." });
     }
 
     const decoded = await verifyJWT(token);
@@ -22,6 +24,6 @@ const authToken = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ error: "O token informado é inválido." });
   }
-}
+};
 
 module.exports = authToken;
