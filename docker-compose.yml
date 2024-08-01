@@ -3,8 +3,9 @@ services:
   # O serviço app(pode ser qualquer outro nome) é um serviço que será executado no container do node.
   app:
     # O image é responsável por definir o nome da imagem que será utilizada para criar o container.
-    image: app
-     # O build é responsável por definir o contexto e o dockerfile que será utilizado para criar a imagem.
+    image:
+      app
+    # O build é responsável por definir o contexto e o dockerfile que será utilizado para criar a imagem.
     build: .
     # O ports é responsável por definir as portas que serão expostas para a máquina host.
     ports:
@@ -22,7 +23,7 @@ services:
     image: mysql
     # O environment é responsável por definir as variáveis de ambiente.
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD} 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     # O ports é responsável por definir as portas que serão expostas para a máquina host.
     ports:

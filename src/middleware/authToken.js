@@ -9,20 +9,22 @@ const authToken = async (req, res, next) => {
     // Se o cabeçalho de autorização não existir executa o if.
     if (!authHeader) {
       // Retorna uma resposta com status 401 e um objeto JSON com a propriedade error e a mensagem de erro.
-      return res.status(401).json({ error: "Você precisa estar autenticado para acessar este recurso." });
+      return res.status(401).json({
+        error: "Você precisa estar autenticado para acessar este recurso.",
+      });
     }
 
-    const token = authHeader.split(' ')[1]; // A constante token armazena o token de autenticação, que é obtido através da função split que divide a string em um array de substrings, utilizando o espaço como separador.
+    const token = authHeader.split(" ")[1]; // A constante token armazena o token de autenticação, que é obtido através da função split que divide a string em um array de substrings, utilizando o espaço como separador.
 
     // O await faz com que a execução da função seja pausada até que a Promise seja resolvida, ou seja, até que a senha seja validada.
     const decoded = await verifyJWT(token); // A constante decoded armazena o resultado da função verifyJWT que recebe e verifica se o token é válido, se for ele continua o código, se não for ele retorna um erro.
 
-    req.userId = decoded.userId;  // A propriedade userId do objeto req recebe o valor do id do usuário que está armazenado no token.
+    req.userId = decoded.userId; // A propriedade userId do objeto req recebe o valor do id do usuário que está armazenado no token.
 
     next(); // Continua para o próximo middleware.
   } catch (err) {
     return res.status(401).json({ error: "O token informado é inválido." }); // Retorna uma resposta com status 401 e um objeto JSON com a propriedade error e a mensagem de erro.
   }
-}
+};
 // Exporta a função authToken para ser utilizada em outros arquivos.
-module.exports = authToken; 
+module.exports = authToken;

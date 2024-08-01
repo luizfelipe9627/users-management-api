@@ -8,9 +8,8 @@ dotenv.config(); // Carrega as variáveis de ambiente.
 const PORT = process.env.PORT || 3000; // A constante PORT armazena a porta da aplicação, caso a variável de ambiente PORT não exista, a porta será 3000.
 
 // O método listen é responsável por iniciar o servidor, ele recebe dois parâmetros, a porta e uma função de callback que é executada quando o servidor é iniciado.
-app.listen(
-  PORT,
-  () => console.log(`Servidor rodando em http://localhost:${PORT}`),
+app.listen(PORT, () =>
+  console.log(`Servidor rodando em http://localhost:${PORT}`),
 );
 
 // A constante options armazena um objeto com a propriedade customCss que é responsável por ocultar a barra superior do Swagger UI.
